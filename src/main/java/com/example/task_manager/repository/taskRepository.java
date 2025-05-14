@@ -1,4 +1,8 @@
 package com.example.task_manager.repository;
 
-public interface taskRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.scheduling.config.Task;
+
+public interface taskRepository extends JpaRepository<Task, Integer> {
+
 }
