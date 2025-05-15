@@ -1,34 +1,40 @@
 package com.example.task_manager.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
 
 @Entity
-//@AllArgsConstructor
-@Table(name = "TASK_TBL")
-public class task {
+@Table(name = "TASKS_TBL")
+public class Task {
 
+    @Id
     private int id;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("description")
     private String description;
+    @JsonProperty("isComplete")
     private boolean isComplete;
+    @JsonProperty("dueDate")
     private LocalDateTime dueDate;
 
 
-    public task() {
+    public Task() {
     }
 
 
-    public task(int id, String title, String description, boolean isComplete, LocalDateTime dueDate) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.isComplete = isComplete;
-        this.dueDate = dueDate;
-    }
+//    public Task(int id, String title, String description, boolean isComplete, LocalDateTime dueDate) {
+//        this.id = id;
+//        this.title = title;
+//        this.description = description;
+//        this.isComplete = isComplete;
+//        this.dueDate = dueDate;
+//    }
 
     public int getId() {
         return id;
@@ -44,6 +50,10 @@ public class task {
 
     public LocalDateTime getDueDate() {
         return dueDate;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
     }
 
     public void setId(int id) {
