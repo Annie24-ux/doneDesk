@@ -2,6 +2,7 @@ package com.example.task_manager.service;
 
 import com.example.task_manager.repository.TaskRepository;
 import com.example.task_manager.model.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Optional;
 @Service
 public class TaskService {
 
+    @Autowired
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
@@ -42,8 +44,8 @@ public class TaskService {
             Task task = xTask.get();
             task.setTitle(newTask.getTitle());
             task.setDescription(newTask.getDescription());
-            task.setComplete(newTask.isComplete());
-            task.setDueDate(newTask.getDueDate());
+//            task.setComplete(newTask.isComplete());
+//            task.setDueDate(newTask.getDueDate());
 
             taskRepository.save(task);
             return task;

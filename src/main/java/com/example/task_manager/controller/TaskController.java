@@ -18,7 +18,12 @@ import java.util.Optional;
 public class TaskController {
     private TaskService taskService;
 
-    @GetMapping
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+
+    }
+
+    @GetMapping()
     public ResponseEntity<List<Task>> getAllTasks() {
         List<Task> tasks = taskService.get();
         return ResponseEntity.ok(tasks);
@@ -36,7 +41,7 @@ public class TaskController {
     }
 
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
 
         taskService.save(task);
@@ -66,9 +71,5 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
-
 
 }

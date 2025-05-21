@@ -18,10 +18,10 @@ public class Task {
     private String title;
     @JsonProperty("description")
     private String description;
-    @JsonProperty("isComplete")
-    private boolean isComplete;
-    @JsonProperty("dueDate")
-    private LocalDateTime dueDate;
+//    @JsonProperty("isComplete")
+//    private boolean isComplete;
+//    @JsonProperty("dueDate")
+//    private LocalDateTime dueDate;
 
 
     public Task() {
@@ -48,13 +48,13 @@ public class Task {
         return description;
     }
 
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
+//    public LocalDateTime getDueDate() {
+//        return dueDate;
+//    }
 
-    public boolean isComplete() {
-        return isComplete;
-    }
+//    public boolean isComplete() {
+//        return isComplete;
+//    }
 
     public void setId(int id) {
         this.id = id;
@@ -68,11 +68,11 @@ public class Task {
         this.description = description;
     }
 
-    public void setComplete(boolean complete) {
-        isComplete = complete;
-    }
+//    public void setComplete(boolean complete) {
+//        isComplete = complete;
+//    }
 
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
+//    public void setDueDate(LocalDateTime dueDate) {
+//        this.dueDate = dueDate;
+//    }
 }
