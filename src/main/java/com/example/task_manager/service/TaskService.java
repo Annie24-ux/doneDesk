@@ -45,7 +45,6 @@ public class TaskService {
             task.setTitle(newTask.getTitle());
             task.setDescription(newTask.getDescription());
 //            task.setComplete(newTask.isComplete());
-//            task.setDueDate(newTask.getDueDate());
 
             taskRepository.save(task);
             return task;
