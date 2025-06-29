@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,30 @@ public class TaskService {
 
         }).orElseThrow(() -> new RuntimeException("Task not found with id " + id));
     };
+
+    public Task patchTask(Integer id, Map<String, Object> updates){
+        Task task = taskRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Task not found. "));
+
+        if (updates.containsKey("title")) {
+            Object titleValue = updates.get("title");
+            if (titleValue != null) {
+                task.setTitle(titleValue.toString());
+            } else {
+                throw new IllegalArgumentException("Title cannot be null");
+            }
+        }
+
+
+        if(updates.containsKey("description")){
+            task.setDescription((String) updates.get("description"));
+        }
+
+        if (updates.containsKey("isComplete")) {
+            task.setComplete(Boolean.parseBoolean((String) updates.get("isComplete")));
+        }
+        return taskRepository.save(task);
+    }
 
 }
 

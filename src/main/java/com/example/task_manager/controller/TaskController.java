@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -66,6 +67,12 @@ public class TaskController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/{id}")
+
+    public ResponseEntity<Task> patchTask(@PathVariable Integer id, @RequestBody Map<String, Object> updates){
+        return ResponseEntity.ok(taskService.patchTask(id, updates));
     }
 
 }
