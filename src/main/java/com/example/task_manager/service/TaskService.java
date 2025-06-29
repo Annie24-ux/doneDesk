@@ -5,6 +5,7 @@ import com.example.task_manager.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,6 +36,9 @@ public class TaskService {
     }
 
     public Task save(Task task) {
+        if (task.getDueDate() == null) {
+            task.setDueDate(LocalDateTime.now().plusDays(3));
+        }
         return taskRepository.save(task);
     }
 
@@ -60,7 +64,6 @@ public class TaskService {
                 throw new IllegalArgumentException("Title cannot be null");
             }
         }
-
 
         if(updates.containsKey("description")){
             task.setDescription((String) updates.get("description"));
