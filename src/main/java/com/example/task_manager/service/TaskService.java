@@ -38,20 +38,14 @@ public class TaskService {
     }
 
     public Task updateTask(Integer id, Task newTask) {
-        Optional<Task> xTask = taskRepository.findById(id);
-
-        if(xTask.isPresent()) {
-            Task task = xTask.get();
+        return taskRepository.findById(id).map(task -> {
             task.setTitle(newTask.getTitle());
             task.setDescription(newTask.getDescription());
-//            task.setComplete(newTask.isComplete());
+            task.setComplete(newTask.isComplete());
+            return taskRepository.save(task);
 
-            taskRepository.save(task);
-            return task;
-        }
-
-        return taskRepository.save(null);
-    }
+        }).orElseThrow(() -> new RuntimeException("Task not found with id " + id));
+    };
 
 }
 

@@ -33,11 +33,7 @@ public class TaskController {
     public ResponseEntity<Optional<Task>> getTaskById(@PathVariable Integer id) {
         Optional<Task> taskById = taskService.get(id);
 
-        if(taskById.isPresent()) {
-            return ResponseEntity.ok(Optional.of(taskById.get()));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return taskById.map(task -> ResponseEntity.ok(Optional.of(task))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 
@@ -48,19 +44,19 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(task);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Task> editTask(@PathVariable Integer id, @RequestBody Task newTask) {
         try {
             Task task = taskService.updateTask(id, newTask);
             return ResponseEntity.ok(task);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Integer id) {
         Optional<Task> doneTask = taskService.get(id);
 
