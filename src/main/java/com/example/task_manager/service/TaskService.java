@@ -52,28 +52,41 @@ public class TaskService {
         }).orElseThrow(() -> new RuntimeException("Task not found with id " + id));
     };
 
-    public Task patchTask(Integer id, Map<String, Object> updates){
+    public Task patchTask(Integer id, Map<String, Object> updates) {
         Task task = taskRepository.findById(id).orElseThrow(() ->
-                new RuntimeException("Task not found. "));
+                new RuntimeException("Task not found."));
 
         if (updates.containsKey("title")) {
-            Object titleValue = updates.get("title");
-            if (titleValue != null) {
-                task.setTitle(titleValue.toString());
+            Object value = updates.get("title");
+            if (value instanceof String title && !title.trim().isEmpty()) {
+                task.setTitle(title);
             } else {
-                throw new IllegalArgumentException("Title cannot be null");
+                throw new IllegalArgumentException("Title must be a non-empty string.");
             }
         }
 
-        if(updates.containsKey("description")){
-            task.setDescription((String) updates.get("description"));
+        if (updates.containsKey("description")) {
+            Object value = updates.get("description");
+            if (value instanceof String description) {
+                task.setDescription(description);
+            } else {
+                throw new IllegalArgumentException("Description must be a string.");
+            }
         }
 
         if (updates.containsKey("isComplete")) {
-            task.setComplete(Boolean.parseBoolean((String) updates.get("isComplete")));
+            Object value = updates.get("isComplete");
+            if (value instanceof Boolean boolVal) {
+                task.setComplete(boolVal);
+            } else if (value instanceof String strVal) {
+                task.setComplete(Boolean.parseBoolean(strVal));
+            } else {
+                throw new IllegalArgumentException("isComplete must be a boolean or string (\"true\"/\"false\").");
+            }
         }
         return taskRepository.save(task);
     }
+
 
 }
 

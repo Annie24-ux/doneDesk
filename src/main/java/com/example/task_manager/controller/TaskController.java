@@ -3,6 +3,7 @@ package com.example.task_manager.controller;
 import com.example.task_manager.model.Task;
 import com.example.task_manager.repository.TaskRepository;
 import com.example.task_manager.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 
 public class TaskController {
-    private TaskService taskService;
+    private final TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -30,16 +31,18 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Task>> getTaskById(@PathVariable Integer id) {
-        Optional<Task> taskById = taskService.get(id);
 
-        return taskById.map(task -> ResponseEntity.ok(Optional.of(task))).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Integer id) {
+        return taskService.get(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 
+
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+    public ResponseEntity<Task> createTask(@RequestBody @Valid Task task) {
 
         taskService.save(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(task);

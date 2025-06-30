@@ -2,6 +2,7 @@ package com.example.task_manager.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ public class Task {
     private int id;
 
     @Column(length = 255, nullable = false)
+    @NotBlank(message = "Title is required")
     private String title;
 
     @Column(length = 1000)
